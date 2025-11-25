@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://kit.fontawesome.com/4f835695b2.js" crossorigin="anonymous"></script>
+    <title>Cart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=League+Spartan:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <section id="header">
+        <a href="{% url 'index' %}"> 
+            <img src="{% static 'img/logo.png' %}" class="logo">
+        </a>
+
+        <div>
+          <ul id="navbar1">
+            <li><a href="{% url 'index' %}"> Home </a></li>
+            <li><a href="{% url 'shop' %}"> Shop </a></li>
+            <li><a href="{% url 'about' %}"> About </a></li>
+            <li><a href="https://www.instagram.com"> Contact</a></li>
+            <li><a class="active" href="{% url 'cart' %}"> <i class="fa-solid fa-cart-shopping"></i> </a></li>
+            <li><a href="{% url 'user' %}"> <i class="fa-solid fa-circle-user"></i></a></li>
+            <a href="#" id="close"><i class="fas fa-times"></i></a>
+          </ul>
+        </div>
+
+        <div id="mobile">
+          <a href="{% url 'cart' %}"> <i class="fa-solid fa-cart-shopping"></i> </a>
+          <a href="#"><i id="bar" class="fas fa-outdent" ></i></a>
+        </div>
+    </section>
+
+    <section id="cart" class="section-p1">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Remove</td>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Subtotal</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" onclick="removeFromCart(0)"><i class="far fa-times-circle"></i></a></td>
+                    <td><img src="{% static 'img/ph1.png' %}" alt=""></td>
+                    <td>White T-Shirt With Details</td>
+                    <td>R$ 135,00</td>
+                    <td><input type="number" id="quantityInput" min="1" value="0"></td>
+                    <td><button onclick="addToCart(0)" class="normal">Add to Cart</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="cart-add" class="section-p1">
+        <div id="coupon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" id="couponInput" placeholder="Enter Your Coupon">
+                <button onclick="applyCoupon()" class="normal">Apply</button>
+            </div>
+        </div>
+
+        <div id="subtotal">
+            <h3>Cart Totals</h3>
+            <table>
+                <tr>
+                    <td>Cart Subtotal</td>
+                    <td id="cartSubtotal">405 R$</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td id="green">FREE</td>
+                </tr>
+                <tr>
+                  <td>Discount</td>
+                  <td><strong id="Discount">0.00</strong><strong> R$</strong></td>
+              </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong id="totalAmount">0.00</strong><strong> R$</strong></td>
+                </tr>
+            </table>
+            <button onclick="proceedToCheckout()" class="normal">Proceed To Checkout</button>
+        </div>
+    </section>
+
+    <section id="newsletter" class="section-p1 section-m1">
+        <div class="newstext">
+            <h4>Sign up for newsletter</h4>
+            <p>Get E-mail updates about our latest <span>special offers.</span></p>
+        </div>
+        <div class="form">
+            <input type="text" id="emailInput" placeholder="Your email address">
+            <button onclick="signUpForNewsletter()" class="normal">Sign Up</button>
+        </div>
+    </section>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

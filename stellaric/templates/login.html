@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://kit.fontawesome.com/4f835695b2.js" crossorigin="anonymous"></script>
+  <title>Browser</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=League+Spartan:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <section id="header">
+    <a href="{% url 'index' %}">
+      <img src="{% static 'img/logo.png' %}" class="logo">
+    </a>
+
+    <div>
+      <ul id="navbar1">
+        <li><a href="{% url 'index' %}"> Home </a></li>
+        <li><a href="{% url 'shop' %}"> Shop </a></li>
+        <li><a href="{% url 'about' %}"> About </a></li>
+        <li><a href="https://www.instagram.com"> Contact</a></li>
+        <li><a href="{% url 'cart' %}"> <i class="fa-solid fa-cart-shopping"></i> </a></li>
+        <li><a class="active" href="{% url 'user' %}"> <i class="fa-solid fa-circle-user"></i></a></li>
+        <a href="#" id="close"><i class="fas fa-times"></i></a>
+      </ul>
+    </div>
+
+    <div id="mobile">
+      <a href="{% url 'cart' %}"> <i class="fa-solid fa-cart-shopping"></i> </a>
+      <a href="#"><i id="bar" class="fas fa-outdent"></i></a>
+    </div>
+  </section>
+
+  <section>
+    <div id="login-container">
+      <div id="login">
+          <form class="form">
+            <p class="title"> Login</p>
+            <p class="message">Login now and get full access to our website. </p>
+
+            <label>
+                <input required placeholder="" type="email" class="input">
+                <span>Email</span>
+            </label> 
+                
+            <label>
+                <input required placeholder="" type="password" class="input">
+                <span>Password</span>
+            </label>
+
+            <label>
+                <input required placeholder="" type="password" class="input">
+                <span>Confirm password</span>
+            </label>
+
+            <button class="submit"><a>Submit</a></button>
+        </form>
+      </div>
+
+      <div id="login-text">
+        <h1>Welcome Back</h1>
+        <p>Your style journey continues here.  
+        Discover new trends, exclusive collections,  
+        and outfits that express who you truly are.</p>
+
+        <div class="highlight-box">
+            <h3>✨ Exclusive Member Benefits</h3>
+            <ul>
+                <li>Early access to new drops</li>
+                <li>Special discounts</li>
+                <li>Personalized recommendations</li>
+            </ul>
+        </div>
+      </div>
+    </div>  
+  </section>
+
+  <section id="newsletter" class="section-p1 section-m1">
+    <div class="newstext">
+      <h4> Sign up for newsletter </h4>
+      <p> Get E-mail updates about our latest <span> special offers.</span></p>
+    </div>
+
+    <div class="form">
+      <input type="text" placeholder="Your email address">
+      <button class="normal"> Sign Up </button>
+    </div>
+  </section>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
