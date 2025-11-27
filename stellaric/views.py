@@ -1,4 +1,11 @@
 from django.shortcuts import render
+from http.client import HTTPResponse
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.shortcuts import redirect
 
 # Create your views here.
 def index(request):
@@ -12,9 +19,6 @@ def about(request):
 
 def product(request):
     return render(request, 'product.html')
-
-def cart(request):
-    return render(request, 'cart.html')
 
 def user(request):
     return render(request, 'user.html')

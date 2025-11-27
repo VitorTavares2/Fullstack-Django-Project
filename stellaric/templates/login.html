@@ -41,27 +41,26 @@
   <section>
     <div id="login-container">
       <div id="login">
-          <form class="form">
-            <p class="title"> Login</p>
-            <p class="message">Login now and get full access to our website. </p>
-
-            <label>
-                <input required placeholder="" type="email" class="input">
-                <span>Email</span>
-            </label> 
-                
-            <label>
-                <input required placeholder="" type="password" class="input">
-                <span>Password</span>
-            </label>
-
-            <label>
-                <input required placeholder="" type="password" class="input">
-                <span>Confirm password</span>
-            </label>
-
-            <button class="submit"><a>Submit</a></button>
-        </form>
+        <form class="form" action="{% url 'login' %}" method="POST">
+          {% csrf_token %}
+              <p class="title">Login </p>
+              <p class="message">Login now and get full access to our website. </p> 
+              <label>
+                <input required placeholder="" type="text" class="input" name="username">
+                <span>Username</span>
+              </label>
+   
+              <label>
+                  <input required placeholder="" type="password" class="input" name="password">
+                  <span>Password</span>
+              </label>
+  
+              <button class="submit" value="register">Login</button>
+  
+              <p class="signin">Already have an account?  
+                <a href="{% url 'login' %}">Sign in</a>
+              </p>
+          </form>
       </div>
 
       <div id="login-text">
