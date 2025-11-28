@@ -32,12 +32,12 @@
 
         <div>
           <ul id="navbar1">
-            <li><a href="{% url 'index' %}"> Home </a></li>
-            <li><a href="{% url 'shop' %}"> Shop </a></li>
-            <li><a href="{% url 'about' %}"> About </a></li>
+            <li><a href="{% url 'index' %}" class="{% if request.path == '/' %} active {% endif %}"> Home </a></li>
+            <li><a href="{% url 'shop' %}" class="{% if request.path == '/shop/' %} active {% endif %}"> Shop </a></li>
+            <li><a href="{% url 'about' %}" class="{% if request.path == '/about/' %} active {% endif %}"> About </a></li>
             <li><a href="https://www.instagram.com"> Contact</a></li>
-            <li id="lg-bag"><a href="{% url 'cart' %}"> <i class="fa-solid fa-cart-shopping"></i> </a></li>
-            <li><a href="{% url 'user' %}"> <i class="fa-solid fa-circle-user"></i></a></li>
+            <li id="lg-bag"><a href="{% url 'cart' %}" class="{% if request.path == '/cart/' %} active {% endif %}"> <i class="fa-solid fa-cart-shopping"></i> </a></li>
+            <li><a href="{% url 'user' %}" class="{% if request.path == '/user/' %} active {% endif %}"> <i class="fa-solid fa-circle-user"></i></a></li>
             <a href="#" id="close" style="display: none;"><i class="fas fa-times"></i></a>
           </ul>
         </div>
