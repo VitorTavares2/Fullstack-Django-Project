@@ -89,3 +89,9 @@ function signUpForNewsletter() {
     // Lógica para se inscrever na newsletter com o email fornecido
     emailInput.value = ''; // Limpar o campo de email
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.toast').forEach(function (toastEl) {
+        new bootstrap.Toast(toastEl).show();
+    });
+});
