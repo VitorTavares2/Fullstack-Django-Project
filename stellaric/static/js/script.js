@@ -83,13 +83,6 @@ function proceedToCheckout() {
     alert('Proceeding to checkout...');
 }
 
-function signUpForNewsletter() {
-    const emailInput = document.getElementById('emailInput');
-    const emailAddress = emailInput.value.trim();
-    // Lógica para se inscrever na newsletter com o email fornecido
-    emailInput.value = ''; // Limpar o campo de email
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.toast').forEach(function (toastEl) {
         new bootstrap.Toast(toastEl).show();

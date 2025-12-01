@@ -10,6 +10,7 @@
   <title>Stellaric Apparel Co.</title>
   {% endblock %}
 
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <script src="https://kit.fontawesome.com/4f835695b2.js" crossorigin="anonymous"></script>
 
@@ -52,33 +53,36 @@
 
     <!-- TOASTER  -->
 <!-- Toast Container -->
-<div class="toast-container position-fixed top-25 end-0 p-3" style="z-index: 9999;">
-  {% if messages %}
-      {% for message in messages %}
-          <div class="toast align-items-center custom-toast-{{ message.tags }} border-0 show"
-               role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
-              <div class="d-flex">
-                  <div class="toast-body">
-                      {% if message.tags == 'warning'%}
-                      <i class="fa-solid fa-triangle-exclamation"></i>  {{ message }}
-                      {% elif message.tags == 'success'%}
-                      <i class="fa-solid fa-check"></i>  {{ message }}
-                      {% endif %}
-                  </div>
+<div x-data="{dismissed:false}" x-show="!dismissed">
+  <div class="toast-container position-fixed top-25 end-0 p-3" style="z-index: 9999;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="toast align-items-center custom-toast-{{ message.tags }} border-0 show"
+                role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {% if message.tags == 'warning'%}
+                        <i class="fa-solid fa-triangle-exclamation"></i> {{ message }} 
+                        {% elif message.tags == 'success'%}
+                        <i class="fa-solid fa-check"></i> {{ message }}
+                        {% endif %}
+                    </div>
 
-                  <!-- Close button (black) -->
-                  <button type="button" class="btn-close me-2 m-auto"
-                          data-bs-dismiss="toast" aria-label="Close"></button>
-              </div>
-          </div>
-      {% endfor %}
-  {% endif %}
+                    <!-- Close button (black) -->
+                    <button @click="dismissed = true" type="button" class="btn-close me-2 m-auto" class="btn-close-custom" style="filter: invert(1) grayscale(100%) brightness(0%);"></button>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+  </div>
 </div>
+
+
+<!-- Toaster Styles -->
+
 <style>
-/* Position the toast container at 1/4 of the screen height */
 .top-25 { top: 15vh; }
 
-/* SUCCESS: soft green */
 .custom-toast-success {
     background-color: #d1f3d1 !important;
     color: #1b5e20 !important;
@@ -107,6 +111,7 @@
 .toast .btn-close {
     filter: invert(1) grayscale(100%) brightness(0%);
 }
+
 </style>   
     <!-- PAGE CONTENT -->
     {% block content %}
