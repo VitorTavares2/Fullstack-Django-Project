@@ -1,19 +1,37 @@
-from django.shortcuts import render
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from cart.models import Product
 
-# Create your views here.
 def index(request):
-    return render(request, "index.html")
+    featured_products = Product.objects.all()[:8]
+    new_arrivals = Product.objects.all().order_by('-created_at')[:8]
+    
+    context = {
+        'featured_products': featured_products,
+        'new_arrivals': new_arrivals
+    }
+    return render(request, "index.html", context)
 
 def shop(request):
-    return render(request, 'shop.html')
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request, 'shop.html', context)
 
 def about(request):
     return render(request, 'about.html')
 
 def product(request):
     return render(request, 'product.html')
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    products = Product.objects.exclude(id=product_id)[:4]
+    context = {
+        'product': product,
+        'products': products
+    }
+    return render(request, 'product.html', context)
 
 def user(request):
     return render(request, 'user.html')

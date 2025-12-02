@@ -3,116 +3,43 @@
 
 {% block content %}
 <section id="page-header">
-  <h2>Mega discount </h2>
-  <p> Enter code STELLA15 at checkout to 15% discount.</p>
+  <h2>Mega discount</h2>
+  <p>Enter code STELLA15 at checkout to 15% discount.</p>
 </section>
 
 <section id="product1" class="section-p1">
   <div class="pro-container">
 
+    {% for product in products %}
     <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
+      <a href="{% url 'product_detail' product.id %}">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+          <img src="{% static 'img/ph1.png' %}" alt="{{ product.name }}">
+        {% endif %}
+      </a>
       <div class="des">
         <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
+        <h5>{{ product.name }}</h5>
         <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
         </div>
-        <h4> R$ 135</h4>
+        <h4>R$ {{ product.price }}</h4>
       </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
+      <a href="{% url 'product_detail' product.id %}">
+        <i class="fa-solid fa-cart-shopping cart"></i>
+      </a>
     </div>
-
-    <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
-      <div class="des">
-        <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
-        <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </div>
-        <h4> R$ 135</h4>
-      </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
+    {% empty %}
+    <div class="col-12 text-center">
+      <p>No products available at the moment.</p>
     </div>
-
-    <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
-      <div class="des">
-        <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
-        <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </div>
-        <h4> R$ 135</h4>
-      </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
-    </div>
-
-    <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
-      <div class="des">
-        <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
-        <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </div>
-        <h4> R$ 135</h4>
-      </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
-    </div>
-
-    <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
-      <div class="des">
-        <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
-        <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </div>
-        <h4> R$ 135</h4>
-      </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
-    </div>
-
-    <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
-      <div class="des">
-        <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
-        <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </div>
-        <h4> R$ 135</h4>
-      </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
-    </div>
-
-    <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
-      <div class="des">
-        <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
-        <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </div>
-        <h4> R$ 135</h4>
-      </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
-    </div>
-
-    <div class="pro">
-      <a href="{% url 'product' %}"><img src="{% static 'img/ph1.png' %}" alt=""></a>
-      <div class="des">
-        <span>Givenchy</span>
-        <h5> White Shirt With Details</h5>
-        <div class="stars">
-          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-        </div>
-        <h4> R$ 135</h4>
-      </div>
-      <a href="{% url 'product' %}"><i class="fa-solid fa-cart-shopping cart"></i></a>
-    </div>
+    {% endfor %}
 
   </div>
 </section>

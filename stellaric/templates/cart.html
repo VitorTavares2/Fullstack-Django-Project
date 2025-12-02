@@ -2,61 +2,93 @@
 {% load static %}
 
 {% block content %}
-    <section id="cart" class="section-p1">
-        <table width="100%">
-            <thead>
-                <tr>
-                    <td>Remove</td>
-                    <td>Image</td>
-                    <td>Product</td>
-                    <td>Price</td>
-                    <td>Quantity</td>
-                    <td>Subtotal</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="#" onclick="removeFromCart(0)"><i class="far fa-times-circle"></i></a></td>
-                    <td><img src="{% static 'img/ph1.png' %}" alt=""></td>
-                    <td>White T-Shirt With Details</td>
-                    <td>R$ 135,00</td>
-                    <td><input type="number" id="quantityInput" min="1" value="0"></td>
-                    <td><button onclick="addToCart(0)" class="normal">Add to Cart</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+<section id="cart" class="section-p1">
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>Remove</td>
+                <td>Image</td>
+                <td>Product</td>
+                <td>Size</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Subtotal</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}">
+                        <i class="far fa-times-circle"></i>
+                    </a>
+                </td>
+                <td>
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="80">
+                    {% else %}
+                        <img src="{% static 'img/ph1.png' %}" alt="{{ item.product.name }}" width="80">
+                    {% endif %}
+                </td>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.size|default:"-" }}</td>
+                <td>R$ {{ item.product.price|floatformat:2 }}</td>
+                <form method="POST" action="{% url 'update_cart_item' item.id %}">
+                    {% csrf_token %}
+                    <td style="text-align: center; vertical-align: middle;">
+                        <input type="number" name="quantity" min="1" value="{{ item.quantity }}" class="quantity-input">
+                    </td>
+                    <td style="text-align: center; vertical-align: middle;">
+                        <span>R$ {{ item.get_subtotal|floatformat:2 }}</span>
+                        <button type="submit" class="rotate-icon">
+                            <i class="fa-solid fa-rotate"></i>
+                        </button>
+                    </td>
+                </form>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">Your cart is empty</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
 
-    <section id="cart-add" class="section-p1">
-        <div id="coupon">
-            <h3>Apply Coupon</h3>
+<section id="cart-add" class="section-p1">
+    <div id="coupon">
+        <h3>Apply Coupon</h3>
+        <form method="POST" action="{% url 'apply_coupon' %}">
+            {% csrf_token %}
             <div>
-                <input type="text" id="couponInput" placeholder="Enter Your Coupon">
-                <button onclick="applyCoupon()" class="normal">Apply</button>
+                <input type="text" name="coupon" placeholder="Enter Your Coupon">
+                <button type="submit" class="normal">Apply</button>
             </div>
-        </div>
+        </form>
+    </div>
 
-        <div id="subtotal">
-            <h3>Cart Totals</h3>
-            <table>
-                <tr>
-                    <td>Cart Subtotal</td>
-                    <td id="cartSubtotal">405 R$</td>
-                </tr>
-                <tr>
-                    <td>Shipping</td>
-                    <td id="green">FREE</td>
-                </tr>
-                <tr>
-                  <td>Discount</td>
-                  <td><strong id="Discount">0.00</strong><strong> R$</strong></td>
-              </tr>
-                <tr>
-                    <td><strong>Total</strong></td>
-                    <td><strong id="totalAmount">0.00</strong><strong> R$</strong></td>
-                </tr>
-            </table>
-            <button onclick="proceedToCheckout()" class="normal">Proceed To Checkout</button>
-        </div>
-    </section>
+    <div id="subtotal">
+        <h3>Cart Totals</h3>
+        <table>
+            <tr>
+                <td>Cart Subtotal</td>
+                <td>R$ {{ subtotal|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td>Shipping</td>
+                <td id="green">FREE</td>
+            </tr>
+            <tr>
+                <td>Discount</td>
+                <td><strong>R$ {{ discount|floatformat:2 }}</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>R$ {{ total|floatformat:2 }}</strong></td>
+            </tr>
+        </table>
+        <button type="submit" class="normal">Proceed To Checkout!</button>
+    </div>
+</section>
+
 {% endblock %}

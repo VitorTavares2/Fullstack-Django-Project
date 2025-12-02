@@ -5,26 +5,36 @@
   
   <section id="prodetails" class="section-p1">
       <div class="single-product-image">
-          <img src="{% static 'img/ph1.png' %}" width="100%" id="MainImg" alt="">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" width="100%" id="MainImg" alt="{{ product.name }}">
+          {% else %}
+            <img src="{% static 'img/ph1.png' %}" width="100%" id="MainImg" alt="{{ product.name }}">
+          {% endif %}
       </div>
 
       <div class="single-pro-details">
-          <h6> Home / T-Shirt</h6>
-          <h4> Fashion T-Shirt</h4>
-          <h2> R$ 135,00</h2>
-          <div class="d-flex gap-2">
-            <select class="form-select" style="width: 120px; height: 38px;">
-                <option>Select Size</option>
-                <option>GG</option>
-                <option>G</option>
-                <option>M</option>
-                <option>P</option>
-                <option>PP</option>
-            </select>
-            <button class="btn text-white" style="background-color: #7D5E2A; height: 38px;">Add To Cart</button>
-        </div>
-          <h4> Product Details </h4>
-          <span> This immaculate white blouse exudes an air of timeless elegance... </span>
+          <h6>Home / T-Shirt</h6>
+          <h4>{{ product.name }}</h4>
+          <h2>R$ {{ product.price }}</h2>
+          <form method="POST" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            <div class="d-flex gap-2">
+                <select name="size" class="form-select" style="width: 120px; height: 38px;">
+                    <option>Select Size</option>
+                    <option>GG</option>
+                    <option>G</option>
+                    <option>M</option>
+                    <option>P</option>
+                    <option>PP</option>
+                </select>
+                <input type="number" name="quantity" min="1" value="1" hidden>
+                <button type="submit" class="btn text-white" style="background-color: #7D5E2A; height: 38px;">
+                    Add To Cart
+                </button>
+            </div>
+          </form>
+          <h4>Product Details</h4>
+          <span>{{ product.description|default:"This immaculate white blouse exudes an air of timeless elegance..." }}</span>
       </div>
   </section>
 
@@ -34,11 +44,18 @@
 
       <div class="pro-container">
 
+        {% for related_product in products %}
         <div class="pro">
-          <img src="{% static 'img/ph1.png' %}" alt="">
+          <a href="{% url 'product_detail' related_product.id %}">
+            {% if related_product.image %}
+              <img src="{{ related_product.image.url }}" alt="{{ related_product.name }}">
+            {% else %}
+              <img src="{% static 'img/ph1.png' %}" alt="{{ related_product.name }}">
+            {% endif %}
+          </a>
           <div class="des">
               <span>Givenchy</span>
-              <h5> White Shirt With Details</h5>
+              <h5>{{ related_product.name }}</h5>
               <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -46,63 +63,14 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
               </div>
-              <h4> R$ 135</h4>
+              <h4>R$ {{ related_product.price }}</h4>
           </div>
-          <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
+          <a href="{% url 'product_detail' related_product.id %}">
+            <i class="fa-solid fa-cart-shopping cart"></i>
+          </a>
         </div>
-
-        <div class="pro">
-          <img src="{% static 'img/ph1.png' %}" alt="">
-          <div class="des">
-              <span>Givenchy</span>
-              <h5> White Shirt With Details</h5>
-              <div class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas a-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-              </div>
-              <h4> R$ 135</h4>
-          </div>
-          <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-        </div>
-
-        <div class="pro">
-          <img src="{% static 'img/ph1.png' %}" alt="">
-          <div class="des">
-              <span>Givenchy</span>
-              <h5> White Shirt With Details</h5>
-              <div class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-              </div>
-              <h4> R$ 135</h4>
-          </div>
-          <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-        </div>
-
-        <div class="pro">
-          <img src="{% static 'img/ph1.png' %}" alt="">
-          <div class="des">
-              <span>Givenchy</span>
-              <h5> White Shirt With Details</h5>
-              <div class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-              </div>
-              <h4> R$ 135</h4>
-          </div>
-          <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-        </div>
+        {% endfor %}
 
       </div>
   </section>
 {% endblock %}
-
