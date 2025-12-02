@@ -1,9 +1,11 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib import messages
+from django.contrib.auth import logout as logout_django
+from django.contrib.auth.decorators import login_required
+from .models import Profile
 
 def register(request):
     if request.method == "GET":
@@ -58,3 +60,24 @@ def cart(request):
     
     messages.warning(request, "You need to be logged in to access this page!")
     return redirect("register")
+
+def logout(request):
+    logout_django(request)
+    messages.success(request, "Logged out successfully!")
+    return redirect("index")
+
+def Profile(request):
+    profile = request.user.profile
+
+    if request.method == "POST":
+        profile.address = request.POST.get("address")
+        profile.city = request.POST.get("city")
+        profile.state = request.POST.get("state")
+        profile.zipcode = request.POST.get("zipcode")
+        profile.phone = request.POST.get("phone")
+        profile.save()
+
+        messages.success(request, "Profile updated.")
+        return redirect("profile")
+
+    return render(request, "profile.html", {"profile": profile})

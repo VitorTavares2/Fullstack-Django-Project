@@ -12,5 +12,6 @@ urlpatterns = [
     path('cart/', viewsUsers.cart, name='cart'),
     path('user/', views.user, name='user'),
     path('login/', views.login, name='login'),
-    path('auth/', include('users.urls')),
+    path('userSection/', views.userSection, name='userSection'),
+    path('auth/', include('users.urls')),  
 ]

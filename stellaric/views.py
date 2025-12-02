@@ -1,10 +1,5 @@
 from django.shortcuts import render
-from http.client import HTTPResponse
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
 from django.shortcuts import redirect
 
 # Create your views here.
@@ -25,3 +20,9 @@ def user(request):
 
 def login(request):
     return render(request, 'login.html')
+
+def userSection(request):
+    if request.user.is_authenticated:
+        return render(request, 'userSection.html')
+    else:
+        return redirect('register')
