@@ -942,3 +942,34 @@ html,body { height: 100%; }
     #close{ display: block; }
 }
 
+.shipping-row {
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.shipping-row:hover {
+    background-color: #fff3cd;
+}
+
+.shipping-row .tracking-code {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    margin-bottom: 8px;
+}
+
+.shipping-row:hover .tracking-code {
+    opacity: 1;
+}

@@ -81,3 +81,21 @@ def Profile(request):
         return redirect("profile")
 
     return render(request, "profile.html", {"profile": profile})
+
+def update_profile(request):
+    if request.method == "POST":
+        profile = request.user.profile 
+
+        # Update fields with the EXACT names from the HTML form
+        profile.phone = request.POST.get("phone")
+        profile.Adress = request.POST.get("Adress")  
+        profile.ZIPCODE = request.POST.get("ZIPCODE") 
+        profile.City = request.POST.get("City")  
+        profile.State = request.POST.get("State") 
+
+        profile.save()  
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect("userSection")  
+
+    return redirect("userSection")  
