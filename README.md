@@ -2,11 +2,11 @@
 
 A modern, full-stack e-commerce application built with Django and Alpine.js, featuring a clean UI, shopping cart functionality, user authentication, and order management.
 
-![Django](https://img.shields.io/badge/Django-5.2.8-green)
-![Python](https://img.shields.io/badge/Python-3.13-blue)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.2-purple)
-![Alpine.js](https://img.shields.io/badge/Alpine.js-3.x-teal)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+![Django]
+![Python]
+![Bootstrap]
+![Alpine.js]
+![License]
 
 ## 📋 Table of Contents
 
