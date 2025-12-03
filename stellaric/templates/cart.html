@@ -19,9 +19,9 @@
             {% for item in cart_items %}
             <tr>
                 <td>
-                    <a href="{% url 'remove_from_cart' item.id %}">
+                    <a href="{% url 'remove_from_cart' item.id %}" class="text-danger text-decoration-none">
                         <i class="far fa-times-circle"></i>
-                    </a>
+                    </a>                    
                 </td>
                 <td>
                     {% if item.product.image %}
