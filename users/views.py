@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.contrib.auth import login as login_django
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
-from django.contrib.auth import logout as logout_django
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 
@@ -36,7 +34,7 @@ def register(request):
     return redirect("login")
 
 
-def login(request):
+def login_view(request):
     if request.method == "GET":
         return render(request, 'login.html')
     
@@ -46,9 +44,10 @@ def login(request):
     user = authenticate(username=username, password=password)
 
     if user:
-        login_django(request, user)
+        auth_login(request, user)
         messages.success(request, "Authenticated!")
-        return redirect("index")
+        next_url = request.GET.get('next', 'index')
+        return redirect(next_url)
     else:
         messages.warning(request, "Wrong email or password!")
         return redirect("login")
@@ -61,19 +60,19 @@ def cart(request):
     messages.warning(request, "You need to be logged in to access this page!")
     return redirect("register")
 
-def logout(request):
-    logout_django(request)
+def logout_view(request):
+    auth_logout(request)
     messages.success(request, "Logged out successfully!")
     return redirect("index")
 
-def Profile(request):
+def profile_view(request):
     profile = request.user.profile
 
     if request.method == "POST":
-        profile.address = request.POST.get("address")
-        profile.city = request.POST.get("city")
-        profile.state = request.POST.get("state")
-        profile.zipcode = request.POST.get("zipcode")
+        profile.Adress = request.POST.get("address")
+        profile.City = request.POST.get("city")
+        profile.State = request.POST.get("state")
+        profile.ZIPCODE = request.POST.get("zipcode")
         profile.phone = request.POST.get("phone")
         profile.save()
 
@@ -82,20 +81,20 @@ def Profile(request):
 
     return render(request, "profile.html", {"profile": profile})
 
+@login_required
 def update_profile(request):
     if request.method == "POST":
-        profile = request.user.profile 
+        profile = request.user.profile
 
-        # Update fields with the EXACT names from the HTML form
         profile.phone = request.POST.get("phone")
-        profile.Adress = request.POST.get("Adress")  
-        profile.ZIPCODE = request.POST.get("ZIPCODE") 
-        profile.City = request.POST.get("City")  
-        profile.State = request.POST.get("State") 
+        profile.Adress = request.POST.get("Adress")
+        profile.ZIPCODE = request.POST.get("ZIPCODE")
+        profile.City = request.POST.get("City")
+        profile.State = request.POST.get("State")
 
-        profile.save()  
+        profile.save()
 
         messages.success(request, "Profile updated successfully!")
-        return redirect("userSection")  
+        return redirect("userSection")
 
-    return redirect("userSection")  
+    return redirect("userSection")
