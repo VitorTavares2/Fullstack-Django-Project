@@ -7,21 +7,6 @@ A modern, full-stack e-commerce application built with Django and Alpine.js, fea
 ![Bootstrap]
 ![Alpine.js]
 
-## 📋 Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
-
 ## ✨ Features
 
 ### 🛒 Shopping & Products
