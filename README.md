@@ -286,5 +286,3 @@ stellaric-ecommerce/
 
 
 **Live Demo**: [https://fullstack-django-project-production.up.railway.app](https://fullstack-django-project-production.up.railway.app)
-
-### Test Credentials
