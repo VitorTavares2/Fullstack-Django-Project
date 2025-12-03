@@ -262,7 +262,7 @@ stellaric-ecommerce/
 ### Homepage
 <img width="1920" height="938" alt="image" src="https://github.com/user-attachments/assets/4e64b29a-483b-4f67-81c0-b667763f7113" />
 
-### Shopping Cart
+### Login 
 <img width="1920" height="933" alt="image" src="https://github.com/user-attachments/assets/e70454d6-acea-4b6f-a07b-90a87e904ac8" />
 
 ### User Profile
