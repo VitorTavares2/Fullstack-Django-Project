@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-b73v%o)j=m=bu^^7rggu#je1jzgzio=u%)r94jfh-a%^j5q0h_')
 
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG ='True'
 
 ALLOWED_HOSTS = [
     'fullstack-django-project-production.up.railway.app',
