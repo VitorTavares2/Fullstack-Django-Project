@@ -10,9 +10,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # ======================
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-b73v%o)j=m=bu^^7rggu#je1jzgzio=u%)r94jfh-a%^j5q0h_')
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    'django-insecure-b73v%o)j=m=bu^^7rggu#je1jzgzio=u%)r94jfh-a%^j5q0h_'
+)
 
-DEBUG ='True'
+# CORREÇÃO: DEBUG deve ser boolean, não string
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     'fullstack-django-project-production.up.railway.app',
@@ -24,9 +28,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://fullstack-django-project-production.up.railway.app",
 ]
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+INTERNAL_IPS = ["127.0.0.1"]
+
 # ======================
 # APPLICATIONS
 # ======================
@@ -38,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
 
     'cloudinary_storage',
     'cloudinary',
@@ -48,6 +50,11 @@ INSTALLED_APPS = [
     'cart',
 ]
 
+# Debug Toolbar só no modo desenvolvimento
+if DEBUG:
+    INSTALLED_APPS += ['debug_toolbar']
+
+
 # ======================
 # MIDDLEWARE
 # ======================
@@ -55,7 +62,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,6 +70,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Debug Toolbar ONLY in DEBUG
+if DEBUG:
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
 ROOT_URLCONF = 'djangoProject.urls'
 
@@ -104,18 +114,10 @@ DATABASES = {
 # ======================
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # ======================
@@ -134,14 +136,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "assets",
-]
+STATICFILES_DIRS = [BASE_DIR / "assets"]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ======================
-# CLOUDINARY CONFIGURATION
+# CLOUDINARY CONFIG
 # ======================
 
 CLOUDINARY_STORAGE = {
@@ -160,7 +160,7 @@ cloudinary.config(
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # ======================
-# MEDIA (Fallback local)
+# MEDIA (Fallback)
 # ======================
 
 MEDIA_URL = '/media/'
