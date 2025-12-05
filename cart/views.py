@@ -167,6 +167,9 @@ def create_order(request):
     if request.method == 'POST':
         cart = get_object_or_404(Cart, user=request.user)
         cart_items = cart.items.all()
+
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_items = cart.items.all()
     
     if not cart_items:
         messages.warning(request, 'Your cart is empty!')
@@ -193,7 +196,7 @@ def create_order(request):
     # Create the order
     order = Order.objects.create(
         user=request.user,
-        order_number=f"ORDER-{uuid.uuid4().hex[:8].upper()}",
+        order_number=f"ORD-{uuid.uuid4().hex[:8].upper()}",
         total_amount=subtotal,
         discount=discount,
         final_amount=final_amount,

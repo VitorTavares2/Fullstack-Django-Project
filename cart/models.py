@@ -51,7 +51,7 @@ class Order(models.Model):
     STATUS_CHOICES = [
         ('pending' , 'Pending Payment'),
         ('delivered', 'Delivered'),
-        ('shiping', 'Shiping'),
+        ('shipping', 'Shiping'),
         ('cancelled', 'Cancelled'),
         ('processing' , 'Processing'),
     ]
@@ -68,11 +68,11 @@ class Order(models.Model):
     final_amount = models.DecimalField(max_digits = 10, decimal_places = 2)
 
     #creating the payment method and id of the order
-    payment_method = models.CharField(max_length = 10, blank = True)
-    payment_id = models.CharField(max_length = 10, blank = True, null = True)
+    payment_method = models.CharField(max_length = 15, blank = True)
+    payment_id = models.CharField(max_length = 15, blank = True, null = True)
 
     #tracking code attached to the order, correios.
-    tracking_code = models.CharField(max_length = 13 ,blank = True, null = True)
+    tracking_code = models.CharField(max_length = 14 ,blank = True, default = 'not posted yet')
 
     #shipping infos
     shipping_adress = models.TextField()
@@ -87,6 +87,20 @@ class Order(models.Model):
     #setting how the object gonn be called.
     def __str__(self):
         return f"Order : {self.order_number} - {self.user.username}"
+
+    def get_status_badge_class(self):
+        if self.status == 'pending':
+            return 'bg-warning'
+        elif self.status == 'processing':
+            return 'bg-info'
+        elif self.status == 'shipping':
+            return 'bg-primary'
+        elif self.status == 'delivered':
+            return 'bg-success'
+        elif self.status == 'cancelled':
+            return 'bg-danger'
+        else:
+            return 'bg-secondary'
 
     #order the orders to the most recent 
     class Meta:
@@ -104,3 +118,4 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} X {self.product.name}"
+

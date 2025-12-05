@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from cart.models import Product
+from cart.models import Order
+
 
 def index(request):
     featured_products = Product.objects.all()[:8]
@@ -41,9 +43,13 @@ def login(request):
 
 def userSection(request):
     if request.user.is_authenticated:
-        return render(request, 'userSection.html')
+        orders = Order.objects.filter(user=request.user).order_by('-created_at')
+        return render(request, 'userSection.html',{
+            'orders' : orders
+        })
     else:
         return redirect('register')
+    
 
 def checkout(request):
     return render(request, 'checkout.html')
