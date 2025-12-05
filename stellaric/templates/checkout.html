@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="section-p1">
+    <div class="container">
+        <h2>Checkout</h2>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Shipping Information</h4>
+                <p><strong>Address:</strong> {{ request.user.profile.Adress }}</p>
+                <p><strong>City:</strong> {{ request.user.profile.City }}</p>
+                <p><strong>State:</strong> {{ request.user.profile.State }}</p>
+                <p><strong>Zipcode:</strong> {{ request.user.profile.ZIPCODE }}</p>
+                
+                <a href="{% url 'userSection' %}" class="btn btn-secondary">Update Address</a>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Order Summary</h5>
+                        <p>Subtotal: R$ {{ subtotal|floatformat:2 }}</p>
+                        <p>Discount: R$ {{ discount|floatformat:2 }}</p>
+                        <p>Shipping: FREE</p>
+                        <h4>Total: R$ {{ total|floatformat:2 }}</h4>
+                        <form method="POST" action="{% url 'create_order' %}" class="mt-3">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success w-100">
+                                Proceed to Payment
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

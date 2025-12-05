@@ -44,3 +44,6 @@ def userSection(request):
         return render(request, 'userSection.html')
     else:
         return redirect('register')
+
+def checkout(request):
+    return render(request, 'checkout.html')

@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from stellaric import views
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),  
@@ -14,7 +15,7 @@ urlpatterns = [
     path('userSection/', views.userSection, name='userSection'),
     path('auth/', include('users.urls')),  
     path('cart/', include('cart.urls')),
-]
+] + debug_toolbar_urls()
 
 # SEMPRE servir media files, mesmo em produção
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

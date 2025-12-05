@@ -10,10 +10,10 @@
 
             <div class="row gutters-sm">
 
-                <!-- LEFT SIDE - PURCHASE HISTORY -->
+                <!-- LEFT SIDE -->
                 <div class="col-md-4 mb-3">
+                    <div class="card h-200">
 
-                    <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
                                 <img src="{% static 'img/userIcon.png' %}" alt="Admin" class="rounded-circle" width="150">
@@ -25,62 +25,60 @@
                                     {% else %}
                                         <p class="text-muted font-size-sm">Client</p>
                                     {% endif %}
-
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="card mt-3">
                         <div class="card-header bg-white">
                             <h6 class="mb-0">Purchase History</h6>
                         </div>
+
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table class="table table-sm mb-0">
                                     <thead>
                                         <tr>
+                                            <th style="font-size: 0.85rem;">Order</th>
                                             <th style="font-size: 0.85rem;">Status</th>
-                                            <th style="font-size: 0.85rem;">Product</th>
-                                            <th style="font-size: 0.85rem;">Price</th>
+                                            <th style="font-size: 0.85rem;">Total</th>
+                                            <th style="font-size: 0.85rem;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for order in orders %}
                                         <tr>
-                                            <td><span class="badge bg-success">Delivered</span></td>
-                                            <td style="font-size: 0.85rem;">White T-Shirt</td>
-                                            <td style="font-size: 0.85rem;">$29.99</td>
-                                        </tr>
-                                        <tr class="shipping-row">
-                                            <td>
-                                                <span class="badge bg-warning text-dark">Shipping</span>
-                                                <span class="tracking-code">Tracking: BR123456789XY</span>
+                                            <td style="font-size: 0.85rem;">
+                                                <strong>{{ order.order_number }}</strong><br>
+                                                <small class="text-muted">{{ order.created_at|date:"d/m/Y H:i" }}</small>
                                             </td>
-                                            <td style="font-size: 0.85rem;">Black Hoodie</td>
-                                            <td style="font-size: 0.85rem;">$49.99</td>
+                                            <td>
+                                                <span class="badge {{ order.get_status_badge_class }}">
+                                                    {{ order.get_status_display }}
+                                                </span>
+                                            </td>
+                                            <td style="font-size: 0.85rem;">
+                                                R$ {{ order.final_amount|floatformat:2 }}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-outline-primary">
+                                                    View Details
+                                                </a>
+                                            </td>
                                         </tr>
+                                        {% empty %}
                                         <tr>
-                                            <td><span class="badge bg-info">Processing</span></td>
-                                            <td style="font-size: 0.85rem;">Blue Jeans</td>
-                                            <td style="font-size: 0.85rem;">$79.99</td>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                No orders yet. <a href="{% url 'shop' %}">Start shopping!</a>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td><span class="badge bg-success">Delivered</span></td>
-                                            <td style="font-size: 0.85rem;">Red Cap</td>
-                                            <td style="font-size: 0.85rem;">$19.99</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="badge bg-success">Delivered</span></td>
-                                            <td style="font-size: 0.85rem;">Gray Sneakers</td>
-                                            <td style="font-size: 0.85rem;">$89.99</td>
-                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
+                </div> <!-- END LEFT -->
 
                 <!-- RIGHT SIDE -->
                 <div class="col-md-8">
@@ -220,7 +218,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div> <!-- END RIGHT -->
 
             </div>
 

@@ -24,6 +24,9 @@ CSRF_TRUSTED_ORIGINS = [
     "https://fullstack-django-project-production.up.railway.app",
 ]
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 # ======================
 # APPLICATIONS
 # ======================
@@ -35,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
 
     'cloudinary_storage',
     'cloudinary',
@@ -51,6 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

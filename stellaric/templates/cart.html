@@ -93,7 +93,9 @@
                 <td><strong>R$ {{ total|floatformat:2 }}</strong></td>
             </tr>
         </table>
-        <button type="submit" class="normal">Proceed To Checkout!</button>
+        <form action="{% url 'checkout'%}">
+            <button type="submit" class="normal">Proceed To Checkout!</button>
+        </form> 
     </div>
 </section>
 

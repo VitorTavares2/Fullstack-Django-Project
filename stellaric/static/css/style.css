@@ -1000,3 +1000,41 @@ html,body { height: 100%; }
     text-align: center;
     vertical-align: middle;
 }
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -30px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px currentColor;
+}
+
+.timeline-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: -23px;
+    top: 15px;
+    bottom: -20px;
+    width: 2px;
+    background-color: #ddd;
+}
+
+.timeline-content {
+    padding-left: 10px;
+}
