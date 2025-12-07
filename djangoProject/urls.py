@@ -3,20 +3,27 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from stellaric import views
-from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  
-    path('', views.index, name='index'),
-    path('shop/', views.shop, name='shop'),
-    path('about/', views.about, name='about'),
-    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('user/', views.user, name='user'),
-    path('userSection/', views.userSection, name='userSection'),
-    path('auth/', include('users.urls')),  
+    path('admin/', admin.site.urls),
+    
+    # Allauth
+    path('accounts/', include('allauth.urls')),
+    
+    # Stellaric
+    path('', views.IndexView.as_view(), name='index'),
+    path('shop/', views.ShopView.as_view(), name='shop'),
+    path('about/', views.AboutView.as_view(), name='about'),
+    path('product/<int:pk>/', views.ProductDetailView.as_view(), name='product_detail'),
+    path('user/', views.UserView.as_view(), name='user'),
+    path('userSection/', views.UserSectionView.as_view(), name='userSection'),
+    
+    # Users
+    path('auth/', include('users.urls')),
+    
+    # Cart
     path('cart/', include('cart.urls')),
-] + debug_toolbar_urls()
+]
 
-# SEMPRE servir media files, mesmo em produção
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

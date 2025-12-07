@@ -5,7 +5,7 @@
   <section>
     <div id="login-container">
       <div id="login">
-        <form class="form" action="{% url 'login' %}" method="POST">
+        <form class="form" action="{% url 'account_login' %}" method="POST">
           {% csrf_token %}
               <p class="title">Login </p>
               <p class="message">Login now and get full access to our website. </p> 

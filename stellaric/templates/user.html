@@ -5,7 +5,7 @@
   <section>
     <div id="login-container">
       <div id="login">
-        <form class="form" action="{% url 'register' %}" method="POST">
+        <form class="form" action="{% url 'account_signup' %}" method="POST">
         {% csrf_token %}
             <p class="title">Register </p>
             <p class="message">Signup now and get full access to our website. </p>

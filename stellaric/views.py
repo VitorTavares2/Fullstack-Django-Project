@@ -1,55 +1,51 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from cart.models import Product
-from cart.models import Order
+from django.views.generic import TemplateView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from cart.models import Product, Order
 
-
-def index(request):
-    featured_products = Product.objects.all()[:8]
-    new_arrivals = Product.objects.all().order_by('-created_at')[:8]
+class IndexView(ListView):
+    model = Product
+    template_name = 'index.html'
+    context_object_name = 'featured_products'
     
-    context = {
-        'featured_products': featured_products,
-        'new_arrivals': new_arrivals
-    }
-    return render(request, "index.html", context)
-
-def shop(request):
-    products = Product.objects.all()
-    context = {
-        'products': products
-    }
-    return render(request, 'shop.html', context)
-
-def about(request):
-    return render(request, 'about.html')
-
-def product(request):
-    return render(request, 'product.html')
-
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    products = Product.objects.exclude(id=product_id)[:4]
-    context = {
-        'product': product,
-        'products': products
-    }
-    return render(request, 'product.html', context)
-
-def user(request):
-    return render(request, 'user.html')
-
-def login(request):
-    return render(request, 'login.html')
-
-def userSection(request):
-    if request.user.is_authenticated:
-        orders = Order.objects.filter(user=request.user).order_by('-created_at')
-        return render(request, 'userSection.html',{
-            'orders' : orders
-        })
-    else:
-        return redirect('register')
+    def get_queryset(self):
+        return Product.objects.all()[:8]
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['new_arrivals'] = Product.objects.all().order_by('-created_at')[:8]
+        return context
 
-def checkout(request):
-    return render(request, 'checkout.html')
+class ShopView(ListView):
+    model = Product
+    template_name = 'shop.html'
+    context_object_name = 'products'
+    paginate_by = 12
+    
+    def get_queryset(self):
+        return Product.objects.all()
+
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product.html'
+    context_object_name = 'product'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = Product.objects.exclude(id=self.object.id)[:4]
+        return context
+
+class UserView(TemplateView):
+    template_name = 'user.html'
+
+class UserSectionView(LoginRequiredMixin, TemplateView):
+    template_name = 'userSection.html'
+    login_url = 'account_login'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orders'] = Order.objects.filter(user=self.request.user)[:5]
+        return context
