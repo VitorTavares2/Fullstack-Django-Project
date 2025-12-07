@@ -1,11 +1,12 @@
 from django.shortcuts import redirect
-from django.views.generic import CreateView, View
+from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.urls import reverse_lazy
-from .models import Profile
 
 class UpdateProfileView(LoginRequiredMixin, View):
+    """
+    Update user profile information (address, phone, etc.)
+    """
     login_url = 'account_login'
     
     def post(self, request):

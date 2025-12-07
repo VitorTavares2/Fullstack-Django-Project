@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section style="margin-top: 10vh; margin-bottom: 10vh;">
+    <div id="login-container">
+
+        <div class="login-box">
+            <div class="card shadow">
+                <div class="card-body p-5" style="width: 500px;">
+                    <h2 class="text-center mb-4">Login</h2>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="id_login" class="form-label">Username or Email</label>
+                            <input type="text"
+                                   name="login"
+                                   id="id_login"
+                                   class="form-control"
+                                   placeholder="Enter your username or email"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Password</label>
+                            <input type="password"
+                                   name="password"
+                                   id="id_password"
+                                   class="form-control"
+                                   placeholder="Enter your password"
+                                   required>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox"
+                                   name="remember"
+                                   id="id_remember"
+                                   class="form-check-input">
+                            <label class="form-check-label" for="id_remember">
+                                Remember Me
+                            </label>
+                        </div>
+
+                        <button type="submit"
+                                class="btn w-100 text-white mb-3"
+                                style="background-color: #088178; padding: 12px;">
+                            Login
+                        </button>
+
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Don't have an account?
+                                <a href="{% url 'account_signup' %}" style="color: #088178;">Sign up here</a>
+                            </p>
+                            <p class="mt-2">
+                                <a href="{% url 'account_reset_password' %}" style="color: #666;">Forgot password?</a>
+                            </p>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="login-text" style="background-color: white;">
+            <h1>Welcome Back</h1>
+            <p>Your style journey continues here.
+            Discover new trends, exclusive collections,
+            and outfits that express who you truly are.</p>
+
+            <div class="highlight-box">
+                <h3>✨ Exclusive Member Benefits</h3>
+                <ul>
+                    <li>- Early access to new drops</li>
+                    <li>- Special discounts</li>
+                    <li>- Personalized recommendations</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
