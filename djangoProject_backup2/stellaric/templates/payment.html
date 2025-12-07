@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5" style="max-width: 600px;">
+
+    <!-- DISCLAIMER GIGANTE -->
+    <div class="alert alert-warning text-center fw-bold p-4" style="border: 2px solid #c98b00; font-size: 1.15rem;">
+        ⚠️ <span style="font-size: 1.4rem;">IMPORTANTE — PAGAMENTO FALSO</span> ⚠️ <br><br>
+        Esta página é apenas uma <u>simulação de pagamento</u> para fins de estudo.<br>
+        Nenhum dado real é enviado, armazenado ou processado.<br>
+        Por favor, <span style="text-decoration: underline;">não utilize dados verdadeiros de cartão.</span>
+    </div>
+
+    <h2 class="mb-4">Payment Information</h2>
+
+    <div class="card p-4 shadow-sm">
+        <h5>Order Total</h5>
+        <h3 class="text-success mb-4">R$ {{ order.final_amount|floatformat:2 }}</h3>
+
+        <form action="{% url 'process_payment' order_id=order.id %}" method="POST">
+            {% csrf_token %}
+
+            <label class="form-label fw-bold">Cardholder Name</label>
+            <input type="text" class="form-control mb-3" placeholder="John Doe (Fake)" required>
+
+            <label class="form-label fw-bold">Card Number</label>
+            <input type="text" class="form-control mb-3" maxlength="16" placeholder="1234 5678 9012 3456" required>
+
+            <div class="row">
+                <div class="col">
+                    <label class="form-label fw-bold">Expiration</label>
+                    <input type="text" class="form-control" placeholder="12/29" required>
+                </div>
+
+                <div class="col">
+                    <label class="form-label fw-bold">CVV</label>
+                    <input type="text" class="form-control" maxlength="3" placeholder="123" required>
+                </div>
+            </div>
+
+            <button class="btn btn-success w-100 mt-4" type="submit">
+                Pay Now (Simulation)
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section style="margin-top: 10vh; margin-bottom: 10vh;">
+    <div id="login-container">
+
+        <!-- ESQUERDA: FORM -->
+        <div class="login-box">
+            <div class="card shadow">
+                <div class="card-body p-5" style="width: 500px;">
+                    <h2 class="text-center mb-4">Create Account</h2>
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <strong>Please correct the errors below:</strong>
+                            <ul class="mb-0">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    
+                    <form method="POST" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_first_name" class="form-label">First Name</label>
+                                <input type="text" name="first_name" id="id_first_name"
+                                       class="form-control" placeholder="Enter your first name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_last_name" class="form-label">Last Name</label>
+                                <input type="text" name="last_name" id="id_last_name"
+                                       class="form-control" placeholder="Enter your last name" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Username</label>
+                            <input type="text" name="username" id="id_username"
+                                   class="form-control" placeholder="Choose a username" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            <input type="email" name="email" id="id_email"
+                                   class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_password1" class="form-label">Password</label>
+                            <input type="password" name="password1" id="id_password1"
+                                   class="form-control" placeholder="Create a password" required>
+                            <small class="text-muted">Password must be at least 8 characters</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_password2" class="form-label">Confirm Password</label>
+                            <input type="password" name="password2" id="id_password2"
+                                   class="form-control" placeholder="Confirm your password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn w-100 text-white mb-3"
+                                style="background-color: #088178; padding: 12px;">
+                            Create Account
+                        </button>
+                        
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Already have an account? 
+                                <a href="{% url 'account_login' %}" style="color: #088178;">Login here</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="login-text">
+
+            <h1>Create Your Account</h1>
+        
+            <p>
+                Join our fashion community and unlock a world of style.
+                Get access to exclusive launches, curated looks,
+                and personalized shopping experiences made just for you.
+            </p>
+        
+            <div class="highlight-box">
+                <h3>✨ Why Register?</h3>
+                <ul>
+                    <li>- Save your favorite outfits</li>
+                    <li>- Access members-only discounts</li>
+                    <li>- Faster checkout</li>
+                    <li>- Personalized recommendations</li>
+                </ul>
+            </div>
+        
+            <div class="highlight-box secondary-box">
+                <h3>🔥 What You Unlock</h3>
+                <ul>
+                    <li>- Exclusive access to early collection previews</li>
+                    <li>- Private monthly sales for members only</li>
+                    <li>- Full order tracking and purchase history</li>
+                    <li>- Priority access to limited drops</li>
+                    <li>- Create your style profile and save custom looks</li>
+                </ul>
+            </div>
+        
+        </div>
+    </div>
+</section>
+{% endblock %}

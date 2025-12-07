@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <section>
+    <div id="login-container">
+      <div id="login">
+        <form class="form" action="{% url 'account_login' %}" method="POST">
+          {% csrf_token %}
+              <p class="title">Login </p>
+              <p class="message">Login now and get full access to our website. </p> 
+              <label>
+                <input required placeholder="" type="text" class="input" name="username">
+                <span>Username</span>
+              </label>
+   
+              <label>
+                  <input required placeholder="" type="password" class="input" name="password">
+                  <span>Password</span>
+              </label>
+  
+              <button class="submit" value="register">Login</button>
+  
+              <p class="signin">Already have an account?  
+                <a href="{% url 'login' %}">Sign in</a>
+              </p>
+          </form>
+      </div>
+
+      <div id="login-text">
+        <h1>Welcome Back</h1>
+        <p>Your style journey continues here.  
+        Discover new trends, exclusive collections,  
+        and outfits that express who you truly are.</p>
+
+        <div class="highlight-box">
+            <h3>✨ Exclusive Member Benefits</h3>
+            <ul>
+                <li>Early access to new drops</li>
+                <li>Special discounts</li>
+                <li>Personalized recommendations</li>
+            </ul>
+        </div>
+      </div>
+    </div>  
+  </section>
+{% endblock %}

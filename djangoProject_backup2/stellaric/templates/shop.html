@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section id="page-header">
+  <h2>Mega discount</h2>
+  <p>Enter code STELLA15 at checkout to 15% discount.</p>
+</section>
+
+<section id="product1" class="section-p1">
+  <div class="pro-container">
+
+    {% for product in products %}
+    <div class="pro">
+      <a href="{% url 'product_detail' product.id %}">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+          <img src="{% static 'img/ph1.png' %}" alt="{{ product.name }}">
+        {% endif %}
+      </a>
+      <div class="des">
+        <span>Givenchy</span>
+        <h5>{{ product.name }}</h5>
+        <div class="stars">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <h4>R$ {{ product.price }}</h4>
+      </div>
+      <a href="{% url 'product_detail' product.id %}">
+        <i class="fa-solid fa-cart-shopping cart"></i>
+      </a>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+      <p>No products available at the moment.</p>
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<section id="pagination" class="section-p1" style="text-align: center;">
+  <a href="#" style="background-color: #088178; color: white; padding: 12px 18px; border-radius: 6px; text-decoration: none; margin: 0 5px; font-weight: 500; transition: background-color 0.3s; display: inline-block;">1</a>
+  <a href="#" style="background-color: #088178; color: white; padding: 12px 18px; border-radius: 6px; text-decoration: none; margin: 0 5px; font-weight: 500; transition: background-color 0.3s; display: inline-block;">2</a>
+  <a href="#" style="background-color: #088178; color: white; padding: 12px 18px; border-radius: 6px; text-decoration: none; margin: 0 5px; font-weight: 500; transition: background-color 0.3s; display: inline-block;"><i class="fas fa-long-arrow-alt-right"></i></a>
+</section>
+
+{% endblock %}

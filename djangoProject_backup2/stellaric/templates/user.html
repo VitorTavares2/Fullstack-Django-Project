@@ -1,0 +1,68 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block content %}
+  <section>
+    <div id="login-container">
+      <div id="login">
+        <form class="form" action="{% url 'account_signup' %}" method="POST">
+        {% csrf_token %}
+            <p class="title">Register </p>
+            <p class="message">Signup now and get full access to our website. </p>
+
+            <div class="flex">
+              <label>
+                  <input required placeholder="" type="text" class="input" name="Firstname">
+                  <span>Firstname</span>
+              </label>
+
+              <label>
+                  <input required placeholder="" type="text" class="input" name="Lastname">
+                  <span>Lastname</span>
+              </label>
+            </div>  
+            
+            <label>
+              <input required placeholder="" type="text" class="input" name="username">
+              <span>Username</span>
+            </label>
+
+            <label>
+                <input required placeholder="" type="email" class="input" name="email">
+                <span>Email</span>
+            </label> 
+                
+            <label>
+                <input required placeholder="" type="password" class="input" name="password">
+                <span>Password</span>
+            </label>
+
+            <button class="submit" value="register">Submit</button>
+
+            <p class="signin">Already have an account?  
+              <a href="{% url 'login' %}">Sign in</a>
+            </p>
+        </form>
+      </div>
+
+      <div id="login-text">
+        <h1>Create Your Account</h1>
+
+        <p>
+          Join our fashion community and unlock a world of style.  
+          Get access to exclusive launches, curated looks,  
+          and personalized shopping experiences made just for you.
+        </p>
+
+        <div class="highlight-box">
+            <h3>✨ Why Register?</h3>
+            <ul>
+                <li>Save your favorite outfits</li>
+                <li>Access members-only discounts</li>
+                <li>Faster checkout on every purchase</li>
+                <li>Personalized recommendations</li>
+            </ul>
+        </div>
+      </div>  
+  </section>
+{% endblock %}
