@@ -23,6 +23,9 @@ urlpatterns = [
     
     # Cart
     path('cart/', include('cart.urls')),
+
+    #CRM
+    path('crm/', include('crm.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

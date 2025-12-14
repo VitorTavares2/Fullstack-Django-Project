@@ -80,8 +80,11 @@ button.normal {
     color: #7D5E2A;
 }
 
+#close {
+    display: none;
+}
+
 #mobile { display: none; align-items: center; }
-#lg-bag {}
 
 /* ===========================
    HERO SECTION
@@ -486,7 +489,13 @@ footer .col a, footer a { color: #222; text-decoration: none; }
     #mobile { display: flex; }
     #mobile i { color: #1a1a1a; font-size: 24px; padding-left: 20px; }
 
-    #close { position: absolute; top: 30px; left: 30px; color: #222; font-size: 25px; }
+    #close { 
+        position: absolute; 
+        top: 30px; 
+        left: 30px; 
+        color: #222;
+        font-size: 25px; 
+    }
 
     #hero {
         height: 70vh;
