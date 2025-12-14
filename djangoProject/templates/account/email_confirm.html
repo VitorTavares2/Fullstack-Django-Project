@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="height:70vh; display:flex; align-items:center; justify-content:center;">
+    <div class="card shadow p-5" style="max-width:500px;">
+        <h2 class="text-center mb-3">Email Confirmed</h2>
+        <p>Your email has been successfully verified. You can now log in.</p>
+
+        <a href="{% url 'account_login' %}" class="btn text-white w-100" style="background:#088178;">
+            Continue to Login
+        </a>
+    </div>
+</div>
+{% endblock %}

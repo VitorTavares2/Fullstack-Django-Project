@@ -1,0 +1,230 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block content %}
+
+<section x-data="{ editMode: false }" style="margin-top: 7vh;">
+
+    <div class="container">
+        <div class="main-body">
+
+            <div class="row gutters-sm">
+
+                <!-- LEFT SIDE -->
+                <div class="col-md-4 mb-3">
+                    <div class="card h-200">
+
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="{% static 'img/userIcon.png' %}" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+
+                                    {% if request.user.is_staff %}
+                                        <p class="text-muted font-size-sm">Admin</p>
+                                    {% else %}
+                                        <p class="text-muted font-size-sm">Client</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-header bg-white">
+                            <h6 class="mb-0">Purchase History</h6>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-sm mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: 0.85rem;">Order</th>
+                                            <th style="font-size: 0.85rem;">Status</th>
+                                            <th style="font-size: 0.85rem;">Total</th>
+                                            <th style="font-size: 0.85rem;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                        <tr>
+                                            <td style="font-size: 0.85rem;">
+                                                <strong>{{ order.order_number }}</strong><br>
+                                                <small class="text-muted">{{ order.created_at|date:"d/m/Y H:i" }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge {{ order.get_status_badge_class }}">
+                                                    {{ order.get_status_display }}
+                                                </span>
+                                            </td>
+                                            <td style="font-size: 0.85rem;">
+                                                R$ {{ order.final_amount|floatformat:2 }}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-outline-primary">
+                                                    View Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                No orders yet. <a href="{% url 'shop' %}">Start shopping!</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> <!-- END LEFT -->
+
+                <!-- RIGHT SIDE -->
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <form method="POST" action="{% url 'update_profile' %}">
+                                {% csrf_token %}
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Username</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ request.user.username }}
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Full Name</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ request.user.first_name }} {{ request.user.last_name }}
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        {{ request.user.email }}
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Phone</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span x-show="!editMode" class="text-secondary">{{ request.user.profile.phone }}</span>
+                                        <input x-show="editMode" type="text" name="phone" value="{{ request.user.profile.phone }}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">ZIPCODE</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span x-show="!editMode" class="text-secondary">{{ request.user.profile.ZIPCODE }}</span>
+                                        <input x-show="editMode" type="text" name="ZIPCODE" value="{{ request.user.profile.ZIPCODE }}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Complete Address</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span x-show="!editMode" class="text-secondary">{{ request.user.profile.Adress }}</span>
+                                        <input x-show="editMode" type="text" name="Adress" value="{{ request.user.profile.Adress }}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">City</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span x-show="!editMode" class="text-secondary">{{ request.user.profile.City }}</span>
+                                        <input x-show="editMode" type="text" name="City" value="{{ request.user.profile.City }}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">UF</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span x-show="!editMode" class="text-secondary">{{ request.user.profile.State }}</span>
+                                        <input x-show="editMode" type="text" name="State" value="{{ request.user.profile.State }}" class="form-control">
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="col-sm-12 d-flex justify-content-between">
+                                    
+                                    <div>
+                                        <button 
+                                            type="button"
+                                            class="btn btn-info text-white"
+                                            x-show="!editMode"
+                                            @click="editMode = true">
+                                            Edit
+                                        </button>
+
+                                        <button 
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            x-show="editMode"
+                                            @click="editMode = false">
+                                            Cancel
+                                        </button>
+
+                                        <button 
+                                            type="submit"
+                                            class="btn btn-success ms-2"
+                                            x-show="editMode">
+                                            Save Changes
+                                        </button>
+                                    </div>
+
+                                    <a class="btn btn-danger text-white" href="{% url 'account_logout' %}">
+                                        Logout
+                                    </a>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div> <!-- END RIGHT -->
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
