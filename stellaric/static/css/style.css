@@ -586,3 +586,54 @@ footer .col a, footer a { color: #222; text-decoration: none; }
 }
 
 .timeline-content { padding-left: 10px; }
+
+/*
+================================
+CRM PAGE -- Style
+================================
+*/
+
+#CRM.CRMheader{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/*
+=================================
+ CHART JS -- STYLE
+=================================
+*/
+
+
+  [x-cloak] { display: none !important; }
+  
+  .stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 350px;
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .section-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+  }

@@ -1,133 +1,387 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<style>
-  [x-cloak] { display: none !important; }
-</style>
-
-<div 
-    x-data="{ tab: 'overview' }"
-    class="w-full bg-white px-10 pb-16"
-    style="padding-top:5vh;"
->
-
-    <nav class="flex gap-8 mb-12 border-b border-gray-200">
-        <button
-            @click="tab = 'overview'"
-            :class="tab === 'overview' ? 'border-b-2 border-black text-black font-semibold' : 'text-gray-500'"
-            class="pb-3 text-sm tracking-wide"
-        >
-            Overview
-        </button>
-
-        <button
-            @click="tab = 'ticket'"
-            :class="tab === 'ticket' ? 'border-b-2 border-black text-black font-semibold' : 'text-gray-500'"
-            class="pb-3 text-sm tracking-wide"
-        >
-            Average Ticket
-        </button>
-
-        <button
-            @click="tab = 'sales'"
-            :class="tab === 'sales' ? 'border-b-2 border-black text-black font-semibold' : 'text-gray-500'"
-            class="pb-3 text-sm tracking-wide"
-        >
-            Sales Data
-        </button>
-
-        <button
-            @click="tab = 'products'"
-            :class="tab === 'products' ? 'border-b-2 border-black text-black font-semibold' : 'text-gray-500'"
-            class="pb-3 text-sm tracking-wide"
-        >
-            Products
-        </button>
-
-        <button
-            @click="tab = 'customers'"
-            :class="tab === 'customers' ? 'border-b-2 border-black text-black font-semibold' : 'text-gray-500'"
-            class="pb-3 text-sm tracking-wide"
-        >
-            Customers
-        </button>
-    </nav>
-
-    <section
-        x-show="tab === 'overview'"
-        x-cloak
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-4"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 translate-y-4"
-        class="mt-10"
+<section id="CRM">
+    <div 
+        x-data="{ tab: 'overview' }"
+        class="w-full bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen"
+        style="padding-top:8vh;"
     >
-        <h1 class="text-4xl font-semibold mb-3">Overview</h1>
-        <p class="text-gray-600">General business overview.</p>
-    </section>
+        <div class="section-wrapper px-10 py-10 md:px-20 pb-32">
 
-    <section
-        x-show="tab === 'ticket'"
-        x-cloak
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-4"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 translate-y-4"
-        class="mt-10"
-    >
-        <h1 class="text-4xl font-semibold mb-3">Average Ticket</h1>
-        <p class="text-gray-600">Average order value analysis.</p>
-    </section>
+            <!-- Header -->
+            <div class="CRMheader">
+                <h1 class="text-5xl font-bold text-gray-900 mb-2">CRM Dashboard</h1>
+                <p class="text-gray-500 text-lg">Business analytics and insights</p>
+            </div>
 
-    <section
-        x-show="tab === 'sales'"
-        x-cloak
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-4"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 translate-y-4"
-        class="mt-10"
-    >
-        <h1 class="text-4xl font-semibold mb-3">Sales Data</h1>
-        <p class="text-gray-600">Sales performance indicators.</p>
-    </section>
+            <!-- Navigation Tabs -->
+            <nav class="flex gap-6 border-b border-gray-300 bg-white px-8 rounded-2xl shadow-sm mb-28">
+                <button
+                    @click="tab = 'overview'"
+                    :class="tab === 'overview' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
+                >
+                    <i class="fas fa-chart-line mr-2"></i>
+                    Overview
+                </button>
 
-    <section
-        x-show="tab === 'products'"
-        x-cloak
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-4"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 translate-y-4"
-        class="mt-10"
-    >
-        <h1 class="text-4xl font-semibold mb-3">Products</h1>
-        <p class="text-gray-600">Product performance and inventory.</p>
-    </section>
+                <button
+                    @click="tab = 'sales'"
+                    :class="tab === 'sales' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
+                >
+                    <i class="fas fa-chart-bar mr-2"></i>
+                    Sales
+                </button>
 
-    <section
-        x-show="tab === 'customers'"
-        x-cloak
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-4"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 translate-y-4"
-        class="mt-10"
-    >
-        <h1 class="text-4xl font-semibold mb-3">Customers</h1>
-        <p class="text-gray-600">Customer behavior and analysis.</p>
-    </section>
+                <button
+                    @click="tab = 'products'"
+                    :class="tab === 'products' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
+                >
+                    <i class="fas fa-box mr-2"></i>
+                    Products
+                </button>
 
-</div>
+                <button
+                    @click="tab = 'customers'"
+                    :class="tab === 'customers' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
+                >
+                    <i class="fas fa-users mr-2"></i>
+                    Customers
+                </button>
+            </nav>
+
+            <!-- OVERVIEW TAB -->
+            <section
+                x-show="tab === 'overview'"
+                x-cloak
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+            >
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 px-16 md:px-28">
+                    <!-- Total Revenue -->
+                    <div class="stat-card">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="bg-green-100 p-4 rounded-xl">
+                                <i class="fas fa-dollar-sign text-green-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm font-medium mb-2">Total Revenue</p>
+                        <h3 class="text-4xl font-bold text-gray-900">R$ {{ total_revenue|floatformat:2 }}</h3>
+                        <p class="text-green-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +12.5% from last month</p>
+                    </div>
+
+                    <!-- Total Orders -->
+                    <div class="stat-card">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="bg-blue-100 p-4 rounded-xl">
+                                <i class="fas fa-shopping-cart text-blue-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm font-medium mb-2">Total Orders</p>
+                        <h3 class="text-4xl font-bold text-gray-900">{{ total_orders }}</h3>
+                        <p class="text-blue-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +8.2% from last month</p>
+                    </div>
+
+                    <!-- Average Ticket -->
+                    <div class="stat-card">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="bg-purple-100 p-4 rounded-xl">
+                                <i class="fas fa-ticket-alt text-purple-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm font-medium mb-2">Average Ticket</p>
+                        <h3 class="text-4xl font-bold text-gray-900">R$ {{ average_ticket|floatformat:2 }}</h3>
+                        <p class="text-purple-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +3.1% from last month</p>
+                    </div>
+
+                    <!-- Total Customers -->
+                    <div class="stat-card">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="bg-orange-100 p-4 rounded-xl">
+                                <i class="fas fa-users text-orange-600 text-2xl"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm font-medium mb-2">Total Customers</p>
+                        <h3 class="text-4xl font-bold text-gray-900">{{ total_customers }}</h3>
+                        <p class="text-orange-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +15.3% from last month</p>
+                    </div>
+                </div>
+
+                <!-- Charts Row 1 -->
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <!-- Revenue Chart -->
+                    <div class="chart-container">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Monthly Revenue</h3>
+                                <p class="text-gray-500 text-sm mt-1">Last 6 months performance</p>
+                            </div>
+                        </div>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+
+                    <!-- Orders Chart -->
+                    <div class="chart-container">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Orders Status</h3>
+                                <p class="text-gray-500 text-sm mt-1">Current orders distribution</p>
+                            </div>
+                        </div>
+                        <canvas id="ordersChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Charts Row 2 -->
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <!-- Top Products Chart -->
+                    <div class="chart-container">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Top Products</h3>
+                                <p class="text-gray-500 text-sm mt-1">Best selling items</p>
+                            </div>
+                        </div>
+                        <canvas id="productsChart"></canvas>
+                    </div>
+
+                    <!-- Sales Trend -->
+                    <div class="chart-container">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">Sales Trend</h3>
+                                <p class="text-gray-500 text-sm mt-1">Last 7 days</p>
+                            </div>
+                        </div>
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SALES TAB -->
+            <section
+                x-show="tab === 'sales'"
+                x-cloak
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+            >
+                <div class="mb-10">
+                    <h1 class="text-4xl font-bold text-gray-900 mb-3">Sales Data</h1>
+                    <p class="text-gray-500 text-lg">Detailed sales performance indicators</p>
+                </div>
+                
+                <div class="chart-container" style="height: 500px;">
+                    <canvas id="salesDetailChart"></canvas>
+                </div>
+            </section>
+
+            <!-- PRODUCTS TAB -->
+            <section
+                x-show="tab === 'products'"
+                x-cloak
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+            >
+                <div class="mb-10">
+                    <h1 class="text-4xl font-bold text-gray-900 mb-3">Products</h1>
+                    <p class="text-gray-500 text-lg">Product performance and inventory</p>
+                </div>
+                
+                <div class="chart-container" style="height: 500px;">
+                    <canvas id="productsDetailChart"></canvas>
+                </div>
+            </section>
+
+            <!-- CUSTOMERS TAB -->
+            <section
+                x-show="tab === 'customers'"
+                x-cloak
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+            >
+                <div class="mb-10">
+                    <h1 class="text-4xl font-bold text-gray-900 mb-3">Customers</h1>
+                    <p class="text-gray-500 text-lg">Customer behavior and analysis</p>
+                </div>
+                
+                <div class="chart-container" style="height: 500px;">
+                    <canvas id="customersChart"></canvas>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</section>
+
+<script>
+// Dados de exemplo (Hard Coded -- Depois adicionar informacoes from django-models)
+const revenueData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+        label: 'Revenue (R$)',
+        data: [1200, 1900, 3000, 5000, 2300, 3200],
+        backgroundColor: 'rgba(8, 129, 120, 0.1)',
+        borderColor: 'rgba(8, 129, 120, 1)',
+        borderWidth: 3,
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: 'rgba(8, 129, 120, 1)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7
+    }]
+};
+
+const ordersData = {
+    labels: ['Processing', 'Shipping', 'Delivered', 'Cancelled'],
+    datasets: [{
+        data: [12, 19, 45, 3],
+        backgroundColor: [
+            'rgba(59, 130, 246, 0.9)',
+            'rgba(251, 191, 36, 0.9)',
+            'rgba(34, 197, 94, 0.9)',
+            'rgba(239, 68, 68, 0.9)'
+        ],
+        borderWidth: 0,
+        hoverOffset: 15
+    }]
+};
+
+const productsData = {
+    labels: ['White T-Shirt', 'Black Hoodie', 'Blue Jeans', 'Red Cap', 'Sneakers'],
+    datasets: [{
+        label: 'Units Sold',
+        data: [65, 59, 80, 81, 56],
+        backgroundColor: 'rgba(168, 85, 247, 0.8)',
+        borderColor: 'rgba(168, 85, 247, 1)',
+        borderWidth: 0,
+        borderRadius: 8
+    }]
+};
+
+const trendData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [{
+        label: 'Sales',
+        data: [12, 19, 3, 5, 2, 3, 15],
+        backgroundColor: 'rgba(8, 129, 120, 0.2)',
+        borderColor: 'rgba(8, 129, 120, 1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: 'rgba(8, 129, 120, 1)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 5
+    }]
+};
+
+// Configuração global
+Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+Chart.defaults.color = '#64748b';
+
+// Revenue Chart (Line)
+const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+new Chart(ctxRevenue, {
+    type: 'line',
+    data: revenueData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                padding: 12,
+                cornerRadius: 8
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: '#f1f5f9', drawBorder: false },
+                ticks: { padding: 10 }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { padding: 10 }
+            }
+        }
+    }
+});
+
+// Orders Chart (Doughnut)
+const ctxOrders = document.getElementById('ordersChart').getContext('2d');
+new Chart(ctxOrders, {
+    type: 'doughnut',
+    data: ordersData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 20,
+                    font: { size: 13 },
+                    usePointStyle: true,
+                    pointStyle: 'circle'
+                }
+            }
+        },
+        cutout: '70%'
+    }
+});
+
+// Products Chart (Bar)
+const ctxProducts = document.getElementById('productsChart').getContext('2d');
+new Chart(ctxProducts, {
+    type: 'bar',
+    data: productsData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: '#f1f5f9' }
+            },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// Trend Chart (Area)
+const ctxTrend = document.getElementById('trendChart').getContext('2d');
+new Chart(ctxTrend, {
+    type: 'line',
+    data: trendData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: '#f1f5f9' }
+            },
+            x: { grid: { display: false } }
+        }
+    }
+});
+</script>
+
 {% endblock %}

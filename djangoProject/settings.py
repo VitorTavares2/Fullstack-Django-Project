@@ -61,6 +61,8 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "http://127.0.0.1",
     "https://fullstack-django-project-production.up.railway.app",
 ]
 
