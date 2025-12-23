@@ -48,9 +48,11 @@
             <li id="lg-bag"><a href="{% url 'cart' %}" class="{% if request.path == '/cart/' %} active {% endif %}"> <i class="fa-solid fa-cart-shopping"></i> </a></li>
             <li><a href="{% url 'userSection' %}" class="{% if request.path == '/user/' %} active {% endif %}"> <i class="fa-solid fa-circle-user"></i></a></li>
             <a href="#" id="close"><i class="fas fa-times"></i></a>
-            <div x-data = "{ isStaff: {{ request.user.is_staff|yesno:'true,false'}} }">
-              <a x-show="isStaff" href="{% url 'crm-dashboard' %}" style="text-decoration: none; color: black;">CRM</a>
-            </div>
+            <li>
+              <div x-data = "{ isStaff: {{ request.user.is_staff|yesno:'true,false'}} }">
+                <a x-show="isStaff" href="{% url 'crm-dashboard' %}" class="{% if request.path == '/crm/dashboard'%} active {% endif %}" style="text-decoration: none;">CRM</a>
+              </div>
+            </li>
           </ul>
         </div>
 

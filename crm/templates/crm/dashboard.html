@@ -21,7 +21,7 @@
             <nav class="flex gap-6 border-b border-gray-300 bg-white px-8 rounded-2xl shadow-sm mb-28">
                 <button
                     @click="tab = 'overview'"
-                    :class="tab === 'overview' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    :class="tab === 'overview' ? 'border-b-2 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
                     class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
                 >
                     <i class="fas fa-chart-line mr-2"></i>
@@ -30,7 +30,7 @@
 
                 <button
                     @click="tab = 'sales'"
-                    :class="tab === 'sales' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    :class="tab === 'sales' ? 'border-b-2 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
                     class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
                 >
                     <i class="fas fa-chart-bar mr-2"></i>
@@ -39,7 +39,7 @@
 
                 <button
                     @click="tab = 'products'"
-                    :class="tab === 'products' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    :class="tab === 'products' ? 'border-b-2 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
                     class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
                 >
                     <i class="fas fa-box mr-2"></i>
@@ -48,14 +48,13 @@
 
                 <button
                     @click="tab = 'customers'"
-                    :class="tab === 'customers' ? 'border-b-3 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
+                    :class="tab === 'customers' ? 'border-b-2 border-teal-600 text-teal-600 font-bold' : 'text-gray-400'"
                     class="pb-5 pt-5 text-base tracking-wide transition-all hover:text-teal-500"
                 >
                     <i class="fas fa-users mr-2"></i>
                     Customers
                 </button>
             </nav>
-
             <!-- OVERVIEW TAB -->
             <section
                 x-show="tab === 'overview'"
@@ -75,7 +74,6 @@
                         </div>
                         <p class="text-gray-500 text-sm font-medium mb-2">Total Revenue</p>
                         <h3 class="text-4xl font-bold text-gray-900">R$ {{ total_revenue|floatformat:2 }}</h3>
-                        <p class="text-green-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +12.5% from last month</p>
                     </div>
 
                     <!-- Total Orders -->
@@ -87,7 +85,6 @@
                         </div>
                         <p class="text-gray-500 text-sm font-medium mb-2">Total Orders</p>
                         <h3 class="text-4xl font-bold text-gray-900">{{ total_orders }}</h3>
-                        <p class="text-blue-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +8.2% from last month</p>
                     </div>
 
                     <!-- Average Ticket -->
@@ -99,7 +96,6 @@
                         </div>
                         <p class="text-gray-500 text-sm font-medium mb-2">Average Ticket</p>
                         <h3 class="text-4xl font-bold text-gray-900">R$ {{ average_ticket|floatformat:2 }}</h3>
-                        <p class="text-purple-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +3.1% from last month</p>
                     </div>
 
                     <!-- Total Customers -->
@@ -111,57 +107,64 @@
                         </div>
                         <p class="text-gray-500 text-sm font-medium mb-2">Total Customers</p>
                         <h3 class="text-4xl font-bold text-gray-900">{{ total_customers }}</h3>
-                        <p class="text-orange-600 text-sm mt-2"><i class="fas fa-arrow-up"></i> +15.3% from last month</p>
                     </div>
                 </div>
 
                 <!-- Charts Row 1 -->
-                <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" style="margin-bottom: 40px;">
                     <!-- Revenue Chart -->
-                    <div class="chart-container">
+                    <div class="chart-container" style="padding: 32px; min-height: 450px;">
                         <div class="flex items-center justify-between mb-6">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">Monthly Revenue</h3>
                                 <p class="text-gray-500 text-sm mt-1">Last 6 months performance</p>
                             </div>
                         </div>
-                        <canvas id="revenueChart"></canvas>
+                        <div style="height: 320px; position: relative;">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
                     </div>
 
                     <!-- Orders Chart -->
-                    <div class="chart-container">
+                    <div class="chart-container" style="padding: 32px; min-height: 450px;">
                         <div class="flex items-center justify-between mb-6">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">Orders Status</h3>
                                 <p class="text-gray-500 text-sm mt-1">Current orders distribution</p>
                             </div>
                         </div>
-                        <canvas id="ordersChart"></canvas>
+                        <div style="height: 320px; position: relative;">
+                            <canvas id="ordersChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Charts Row 2 -->
-                <div class="grid grid-cols-1 lg:grid-cols-2">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" style="margin-bottom: 60px;">
                     <!-- Top Products Chart -->
-                    <div class="chart-container">
+                    <div class="chart-container" style="padding: 32px; min-height: 450px;">
                         <div class="flex items-center justify-between mb-6">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">Top Products</h3>
                                 <p class="text-gray-500 text-sm mt-1">Best selling items</p>
                             </div>
                         </div>
-                        <canvas id="productsChart"></canvas>
+                        <div style="height: 320px; position: relative;">
+                            <canvas id="productsChart"></canvas>
+                        </div>
                     </div>
 
                     <!-- Sales Trend -->
-                    <div class="chart-container">
+                    <div class="chart-container" style="padding: 32px; min-height: 450px;">
                         <div class="flex items-center justify-between mb-6">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-900">Sales Trend</h3>
                                 <p class="text-gray-500 text-sm mt-1">Last 7 days</p>
                             </div>
                         </div>
-                        <canvas id="trendChart"></canvas>
+                        <div style="height: 320px; position: relative;">
+                            <canvas id="trendChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -179,8 +182,10 @@
                     <p class="text-gray-500 text-lg">Detailed sales performance indicators</p>
                 </div>
                 
-                <div class="chart-container" style="height: 500px;">
-                    <canvas id="salesDetailChart"></canvas>
+                <div class="chart-container">
+                    <div style="height: 500px;">
+                        <canvas id="salesDetailChart"></canvas>
+                    </div>
                 </div>
             </section>
 
@@ -197,8 +202,10 @@
                     <p class="text-gray-500 text-lg">Product performance and inventory</p>
                 </div>
                 
-                <div class="chart-container" style="height: 500px;">
-                    <canvas id="productsDetailChart"></canvas>
+                <div class="chart-container">
+                    <div style="height: 500px;">
+                        <canvas id="productsDetailChart"></canvas>
+                    </div>
                 </div>
             </section>
 
@@ -215,8 +222,10 @@
                     <p class="text-gray-500 text-lg">Customer behavior and analysis</p>
                 </div>
                 
-                <div class="chart-container" style="height: 500px;">
-                    <canvas id="customersChart"></canvas>
+                <div class="chart-container">
+                    <div style="height: 500px;">
+                        <canvas id="customersChart"></canvas>
+                    </div>
                 </div>
             </section>
 
@@ -227,10 +236,10 @@
 <script>
 // Dados de exemplo (Hard Coded -- Depois adicionar informacoes from django-models)
 const revenueData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: {{ revenue_labels|safe }},
     datasets: [{
         label: 'Revenue (R$)',
-        data: [1200, 1900, 3000, 5000, 2300, 3200],
+        data: {{ revenue_data|safe }},
         backgroundColor: 'rgba(8, 129, 120, 0.1)',
         borderColor: 'rgba(8, 129, 120, 1)',
         borderWidth: 3,
@@ -245,9 +254,9 @@ const revenueData = {
 };
 
 const ordersData = {
-    labels: ['Processing', 'Shipping', 'Delivered', 'Cancelled'],
+    labels: {{ orders_labels|safe }},
     datasets: [{
-        data: [12, 19, 45, 3],
+        data: {{ orders_data|safe }},
         backgroundColor: [
             'rgba(59, 130, 246, 0.9)',
             'rgba(251, 191, 36, 0.9)',
@@ -300,6 +309,14 @@ new Chart(ctxRevenue, {
     options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            }
+        },
         plugins: {
             legend: { display: false },
             tooltip: {
@@ -312,11 +329,17 @@ new Chart(ctxRevenue, {
             y: {
                 beginAtZero: true,
                 grid: { color: '#f1f5f9', drawBorder: false },
-                ticks: { padding: 10 }
+                ticks: { 
+                    padding: 8,
+                    font: { size: 11 }
+                }
             },
             x: {
                 grid: { display: false },
-                ticks: { padding: 10 }
+                ticks: { 
+                    padding: 8,
+                    font: { size: 11 }
+                }
             }
         }
     }
@@ -330,12 +353,20 @@ new Chart(ctxOrders, {
     options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+            padding: {
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20
+            }
+        },
         plugins: {
             legend: {
                 position: 'bottom',
                 labels: {
-                    padding: 20,
-                    font: { size: 13 },
+                    padding: 15,
+                    font: { size: 12 },
                     usePointStyle: true,
                     pointStyle: 'circle'
                 }
@@ -353,13 +384,31 @@ new Chart(ctxProducts, {
     options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            }
+        },
         plugins: { legend: { display: false } },
         scales: {
             y: {
                 beginAtZero: true,
-                grid: { color: '#f1f5f9' }
+                grid: { color: '#f1f5f9' },
+                ticks: { 
+                    padding: 8,
+                    font: { size: 11 }
+                }
             },
-            x: { grid: { display: false } }
+            x: { 
+                grid: { display: false },
+                ticks: { 
+                    padding: 8,
+                    font: { size: 11 }
+                }
+            }
         }
     }
 });
@@ -372,13 +421,31 @@ new Chart(ctxTrend, {
     options: {
         responsive: true,
         maintainAspectRatio: false,
+        layout: {
+            padding: {
+                top: 10,
+                right: 10,
+                bottom: 10,
+                left: 10
+            }
+        },
         plugins: { legend: { display: false } },
         scales: {
             y: {
                 beginAtZero: true,
-                grid: { color: '#f1f5f9' }
+                grid: { color: '#f1f5f9' },
+                ticks: { 
+                    padding: 8,
+                    font: { size: 11 }
+                }
             },
-            x: { grid: { display: false } }
+            x: { 
+                grid: { display: false },
+                ticks: { 
+                    padding: 8,
+                    font: { size: 11 }
+                }
+            }
         }
     }
 });
