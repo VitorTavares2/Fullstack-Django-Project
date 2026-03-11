@@ -5,14 +5,12 @@ from django.contrib import messages
 from django.conf import settings
 from decimal import Decimal
 import uuid
-import random
 
 from .models import Product, Cart, CartItem, Order, OrderItem
 
-
-# ---------------------------------------------------------------------
+# =====================================================================
 # CART
-# ---------------------------------------------------------------------
+# =====================================================================
 
 class CartView(LoginRequiredMixin, TemplateView):
     """
@@ -45,6 +43,7 @@ class CartView(LoginRequiredMixin, TemplateView):
 class AddToCartView(LoginRequiredMixin, View):
     """
     Add a product to the user's cart with the selected size and quantity.
+    FIXED: Added input validation for quantity and stock checking
     """
     login_url = 'account_login'
     
@@ -52,7 +51,26 @@ class AddToCartView(LoginRequiredMixin, View):
         product = get_object_or_404(Product, id=product_id)
         cart, created = Cart.objects.get_or_create(user=request.user)
         
-        quantity = int(request.POST.get('quantity', 1))
+        # FIXED: Validate quantity input
+        try:
+            quantity = int(request.POST.get('quantity', 1))
+        except (ValueError, TypeError):
+            messages.error(request, "Invalid quantity provided")
+            return redirect('product', pk=product_id)
+        
+        # FIXED: Check bounds (1-999)
+        if quantity < 1:
+            messages.error(request, "Quantity must be at least 1")
+            return redirect('product', pk=product_id)
+        if quantity > 999:
+            messages.error(request, "Quantity cannot exceed 999")
+            return redirect('product', pk=product_id)
+        
+        # FIXED: Check stock availability
+        if quantity > product.stock:
+            messages.error(request, f"Only {product.stock} items available in stock")
+            return redirect('product', pk=product_id)
+        
         size = request.POST.get('size', '')
         
         cart_item, created = CartItem.objects.get_or_create(
@@ -63,7 +81,12 @@ class AddToCartView(LoginRequiredMixin, View):
         )
         
         if not created:
-            cart_item.quantity += quantity
+            # FIXED: Check total quantity won't exceed stock
+            new_quantity = cart_item.quantity + quantity
+            if new_quantity > product.stock:
+                messages.error(request, f"Cannot add more. Only {product.stock} available total")
+                return redirect('cart')
+            cart_item.quantity = new_quantity
             cart_item.save()
         
         messages.success(request, f'{product.name} added to cart!')
@@ -76,25 +99,51 @@ class AddToCartView(LoginRequiredMixin, View):
 class RemoveFromCartView(LoginRequiredMixin, View):
     """
     Remove a specific item from the cart.
+    FIXED: Changed from GET to POST for proper REST semantics
     """
     login_url = 'account_login'
     
-    def get(self, request, item_id):
+    def post(self, request, item_id):
         cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
         cart_item.delete()
         messages.success(request, 'Item removed from cart!')
+        return redirect('cart')
+    
+    def get(self, request, item_id):
+        # Redirect GET to POST for safety
+        messages.warning(request, "Please use the remove button to delete items")
         return redirect('cart')
 
 
 class UpdateCartItemView(LoginRequiredMixin, View):
     """
     Update the quantity of an existing cart item.
+    FIXED: Added input validation
     """
     login_url = 'account_login'
     
     def post(self, request, item_id):
         cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
-        quantity = int(request.POST.get('quantity', 1))
+        
+        # FIXED: Validate quantity input
+        try:
+            quantity = int(request.POST.get('quantity', 1))
+        except (ValueError, TypeError):
+            messages.error(request, "Invalid quantity provided")
+            return redirect('cart')
+        
+        # FIXED: Check bounds
+        if quantity < 0:
+            messages.error(request, "Quantity cannot be negative")
+            return redirect('cart')
+        if quantity > 999:
+            messages.error(request, "Quantity cannot exceed 999")
+            return redirect('cart')
+        
+        # FIXED: Check stock
+        if quantity > 0 and quantity > cart_item.product.stock:
+            messages.error(request, f"Only {cart_item.product.stock} items available")
+            return redirect('cart')
         
         if quantity > 0:
             cart_item.quantity = quantity
@@ -107,20 +156,31 @@ class UpdateCartItemView(LoginRequiredMixin, View):
         return redirect('cart')
 
 
-# ---------------------------------------------------------------------
+# =====================================================================
 # COUPON
-# ---------------------------------------------------------------------
+# =====================================================================
 
 class ApplyCouponView(LoginRequiredMixin, View):
     """
     Apply a discount coupon to the cart.
+    FIXED: Added validation and error handling
     """
     login_url = 'account_login'
     
     def post(self, request):
-        coupon = request.POST.get('coupon', '').strip().upper()
+        coupon_code = request.POST.get('coupon', '').strip().upper()
         
-        if coupon == 'STELLA15':
+        # FIXED: Validate coupon input
+        if not coupon_code:
+            messages.warning(request, 'Please enter a coupon code')
+            return redirect('cart')
+        
+        if len(coupon_code) > 50:
+            messages.warning(request, 'Invalid coupon code')
+            return redirect('cart')
+        
+        # TODO: Replace with database lookup when Coupon model is created
+        if coupon_code == 'STELLA15':
             request.session['coupon_applied'] = True
             messages.success(request, 'Coupon applied successfully! 15% discount')
         else:
@@ -130,18 +190,26 @@ class ApplyCouponView(LoginRequiredMixin, View):
         return redirect('cart')
 
 
-# ---------------------------------------------------------------------
+# =====================================================================
 # CHECKOUT
-# ---------------------------------------------------------------------
+# =====================================================================
 
 class CheckoutView(LoginRequiredMixin, TemplateView):
     """
     Display checkout page with summarized cart information.
+    FIXED: Added profile existence check
     """
     template_name = 'checkout.html'
     login_url = 'account_login'
     
     def get(self, request, *args, **kwargs):
+        # FIXED: Check if user has a profile
+        try:
+            profile = request.user.profile
+        except AttributeError:
+            messages.error(request, 'Please complete your profile first')
+            return redirect('userSection')
+        
         cart = get_object_or_404(Cart, user=request.user)
         cart_items = cart.items.all()
 
@@ -172,17 +240,25 @@ class CheckoutView(LoginRequiredMixin, TemplateView):
         return context
 
 
-# ---------------------------------------------------------------------
+# =====================================================================
 # CREATE ORDER
-# ---------------------------------------------------------------------
+# =====================================================================
 
 class CreateOrderView(LoginRequiredMixin, View):
     """
     Create an order from the user's cart and redirect to payment page.
+    FIXED: Added comprehensive error handling and validation
     """
     login_url = 'account_login'
     
     def post(self, request):
+        # FIXED: Check if user has a profile
+        try:
+            profile = request.user.profile
+        except AttributeError:
+            messages.error(request, 'Please complete your profile first')
+            return redirect('userSection')
+        
         cart = get_object_or_404(Cart, user=request.user)
         cart_items = cart.items.all()
         
@@ -190,16 +266,11 @@ class CreateOrderView(LoginRequiredMixin, View):
             messages.warning(request, 'Your cart is empty!')
             return redirect('cart')
         
-        # Check if user's address is complete
-        if not (
-            request.user.profile.Adress and 
-            request.user.profile.City and
-            request.user.profile.ZIPCODE and 
-            request.user.profile.State
-        ):
-            messages.warning(request, 'Your address is not valid!')
+        # FIXED: Validate profile is complete
+        if not all([profile.Adress, profile.City, profile.ZIPCODE, profile.State]):
+            messages.warning(request, 'Your address is incomplete. Please update your profile.')
             return redirect('userSection')
-
+        
         subtotal = cart.get_total()
         discount = Decimal('0')
 
@@ -208,42 +279,47 @@ class CreateOrderView(LoginRequiredMixin, View):
 
         final_amount = subtotal - discount
 
-        # Create the order
-        order = Order.objects.create(
-            user=request.user,
-            order_number=f"ORD-{uuid.uuid4().hex[:8].upper()}",
-            total_amount=subtotal,
-            discount=discount,
-            final_amount=final_amount,
-            shipping_address=request.user.profile.Adress,
-            shipping_city=request.user.profile.City,
-            shipping_zipcode=request.user.profile.ZIPCODE,
-            shipping_state=request.user.profile.State,
-        )
-
-        # Transfer cart items into order items
-        for item in cart_items:
-            OrderItem.objects.create(
-                order=order,
-                product=item.product,
-                quantity=item.quantity,
-                size=item.size,
-                price=item.product.price
+        # FIXED: Create order with error handling
+        try:
+            order = Order.objects.create(
+                user=request.user,
+                order_number=f"ORD-{uuid.uuid4().hex[:8].upper()}",
+                total_amount=subtotal,
+                discount=discount,
+                final_amount=final_amount,
+                shipping_address=profile.Adress,
+                shipping_city=profile.City,
+                shipping_zipcode=profile.ZIPCODE,
+                shipping_state=profile.State,
             )
 
-        # Clear cart
-        cart_items.delete()
-        request.session['coupon_applied'] = False
+            # Transfer cart items into order items
+            for item in cart_items:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity,
+                    size=item.size,
+                    price=item.product.price
+                )
 
-        return redirect('payment_page', order_id=order.id)
+            # Clear cart
+            cart_items.delete()
+            request.session['coupon_applied'] = False
+            
+            messages.success(request, 'Order created successfully!')
+            return redirect('payment_page', order_id=order.id)
+        except Exception as e:
+            messages.error(request, 'Error creating order. Please try again.')
+            return redirect('cart')
     
     def get(self, request):
         return redirect('checkout')
 
 
-# ---------------------------------------------------------------------
+# =====================================================================
 # FAKE PAYMENT (always approved)
-# ---------------------------------------------------------------------
+# =====================================================================
 
 class PaymentPageView(LoginRequiredMixin, DetailView):
     """
@@ -282,9 +358,9 @@ class ProcessPaymentView(LoginRequiredMixin, View):
         return redirect('payment_page', order_id=order_id)
 
 
-# ---------------------------------------------------------------------
+# =====================================================================
 # ORDER MANAGEMENT
-# ---------------------------------------------------------------------
+# =====================================================================
 
 class OrderDetailView(LoginRequiredMixin, DetailView):
     """
